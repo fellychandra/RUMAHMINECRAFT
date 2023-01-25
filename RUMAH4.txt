@@ -1,0 +1,782 @@
+import bpy
+import math
+from bpy import context, data,ops
+from random import random
+
+# Specular 0
+#for f in bpy.data.materials :
+#    f.specular_intensity = 0.0
+
+
+ob=bpy.context.active_object
+# Tanah
+tanah=bpy.data.materials.new(name="Tanah")
+tanah.use_nodes=True
+bsdf=tanah.node_tree.nodes["Principled BSDF"]
+textImage=tanah.node_tree.nodes.new("ShaderNodeTexImage")
+textImage.image=bpy.data.images.load("E:\\SEMESTER 4\\PRAKTIKUM ANIMASI\\uas\\Texture\\Tanahfix.png")
+tanah.node_tree.links.new(bsdf.inputs['Base Color'],textImage.outputs['Color'])
+
+tanahpath=bpy.data.materials.new(name="Tanah")
+tanahpath.use_nodes=True
+bsdf=tanahpath.node_tree.nodes["Principled BSDF"]
+textImage=tanahpath.node_tree.nodes.new("ShaderNodeTexImage")
+textImage.image=bpy.data.images.load("E:\\SEMESTER 4\\PRAKTIKUM ANIMASI\\uas\\Texture\\Pathgrass.png")
+tanahpath.node_tree.links.new(bsdf.inputs['Base Color'],textImage.outputs['Color'])
+
+# Batu
+batu=bpy.data.materials.new(name="Batu")
+batu.use_nodes=True
+bsdf=batu.node_tree.nodes["Principled BSDF"]
+textImage=batu.node_tree.nodes.new("ShaderNodeTexImage")
+textImage.image=bpy.data.images.load("E:\\SEMESTER 4\\PRAKTIKUM ANIMASI\\uas\\Texture\\batu.png")
+batu.node_tree.links.new(bsdf.inputs['Base Color'],textImage.outputs['Color'])
+
+# Kayu
+kayu=bpy.data.materials.new(name="Kayu")
+kayu.use_nodes=True
+bsdf=kayu.node_tree.nodes["Principled BSDF"]
+textImage=kayu.node_tree.nodes.new("ShaderNodeTexImage")
+textImage.image=bpy.data.images.load("E:\\SEMESTER 4\\PRAKTIKUM ANIMASI\\uas\\Texture\\kayu.png")
+kayu.node_tree.links.new(bsdf.inputs['Base Color'],textImage.outputs['Color'])
+
+# Kaca
+kaca=bpy.data.materials.new(name="Kaca")
+kaca.use_nodes=True
+bsdf=kaca.node_tree.nodes["Principled BSDF"]
+textImage=kaca.node_tree.nodes.new("ShaderNodeTexImage")
+textImage.image=bpy.data.images.load("E:\\SEMESTER 4\\PRAKTIKUM ANIMASI\\uas\\Texture\\kacarumah.png")
+kaca.node_tree.links.new(bsdf.inputs['Base Color'],textImage.outputs['Color'])
+
+# Kayu Atap
+kayuatap=bpy.data.materials.new(name="Kayu Atap")
+kayuatap.use_nodes=True
+bsdf=kayuatap.node_tree.nodes["Principled BSDF"]
+textImage=kayuatap.node_tree.nodes.new("ShaderNodeTexImage")
+textImage.image=bpy.data.images.load("E:\\SEMESTER 4\\PRAKTIKUM ANIMASI\\uas\\Texture\\atap.png")
+kayuatap.node_tree.links.new(bsdf.inputs['Base Color'],textImage.outputs['Color'])
+
+# Obor
+oborr=bpy.data.materials.new(name="New_Mat")
+oborr.use_nodes=True
+bsdf=oborr.node_tree.nodes["Principled BSDF"]
+textImage=oborr.node_tree.nodes.new("ShaderNodeTexImage")
+textImage.image=bpy.data.images.load("E:\\SEMESTER 4\\PRAKTIKUM ANIMASI\\uas\\Texture\\obor.png")
+oborr.node_tree.links.new(bsdf.inputs['Base Color'],textImage.outputs['Color'])
+
+
+# Daun
+daun=bpy.data.materials.new(name="Daun")
+daun.use_nodes=True
+bsdf=daun.node_tree.nodes["Principled BSDF"]
+textImage=daun.node_tree.nodes.new("ShaderNodeTexImage")
+textImage.image=bpy.data.images.load("E:\\SEMESTER 4\\PRAKTIKUM ANIMASI\\uas\\Texture\\DAUNLEAF.png")
+daun.node_tree.links.new(bsdf.inputs['Base Color'],textImage.outputs['Color'])
+
+# Awan
+awan1=bpy.data.materials.new(name="New_Mat")
+awan1.use_nodes=True
+bsdf=awan1.node_tree.nodes["Principled BSDF"]
+textImage=awan1.node_tree.nodes.new("ShaderNodeTexImage")
+textImage.image=bpy.data.images.load("E:\\SEMESTER 4\\PRAKTIKUM ANIMASI\\uas\\Texture\\awan1.png")
+awan1.node_tree.links.new(bsdf.inputs['Base Color'],textImage.outputs['Color'])
+
+# Air
+air=bpy.data.materials.new(name="Daun")
+air.use_nodes=True
+bsdf=air.node_tree.nodes["Principled BSDF"]
+textImage=air.node_tree.nodes.new("ShaderNodeTexImage")
+textImage.image=bpy.data.images.load("E:\\SEMESTER 4\\PRAKTIKUM ANIMASI\\uas\\Texture\\air.png")
+air.node_tree.links.new(bsdf.inputs['Base Color'],textImage.outputs['Color'])
+
+# Air
+pintuu=bpy.data.materials.new(name="Daun")
+pintuu.use_nodes=True
+bsdf=pintuu.node_tree.nodes["Principled BSDF"]
+textImage=pintuu.node_tree.nodes.new("ShaderNodeTexImage")
+textImage.image=bpy.data.images.load("E:\\SEMESTER 4\\PRAKTIKUM ANIMASI\\uas\\Texture\\pintu.jpg")
+pintuu.node_tree.links.new(bsdf.inputs['Base Color'],textImage.outputs['Color'])
+
+
+
+ob=context.view_layer.objects.active
+
+         
+         
+def alas2() :
+    z=2
+    for x in range(-7,18):
+        for y in range(21):
+            x=x
+            y=y
+            z=z
+            
+            if x in range(-4,0):
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)            
+                ob.data.materials.append(tanahpath)
+            elif x in range(0,18) :    
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)
+                ob.data.materials.append(tanah)
+            else :
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)
+                ob.data.materials.append(tanah)
+                                        
+                         
+def tiang3() :
+    y=3
+    for x in range(8):
+        for z in range(3, 8):
+            if(z==7) or (x==0) or (x==7) :               
+                x=x
+                y=y
+                z=z
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(5+(x),3,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)                
+                ob.data.materials.append(kayu)
+
+                
+    for x in range(8):
+        for z in range(3, 8):
+            if(z==7) or (x==0) or (x==7):
+                x=x
+                y=y
+                z=z
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(5+(x),10,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)               
+                ob.data.materials.append(kayu)
+                   
+           
+def tembokbelakang() :
+    y=4
+    for x in range(6, 12):
+        for z in range(3, 8):
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)            
+            ob.data.materials.append(batu)              
+            
+    y=9
+    for x in range(6, 12):
+        for z in range(3, 8):
+            if x==6 or x==7 or x==10 or x==11 :
+                x=x
+                y=y
+                z=z
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)                
+                ob.data.materials.append(batu)  
+                
+            elif z == 5 or z==6 or z==7 :
+                x=x
+                y=y
+                z=z
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)                               
+                ob.data.materials.append(batu)  
+            
+
+def temboksampingkiri() :                   
+    x=11
+    for y in range(5, 9):
+        for z in range(3, 8):
+            if y==5 or y==8 :
+                x=x
+                y=y
+                z=z
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)
+                ob.data.materials.append(batu)            
+                           
+            elif z == 3 or z == 6 or z == 7:
+                x=x
+                y=y
+                z=z
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)
+                ob.data.materials.append(batu)
+                
+            else :               
+                x=x
+                y=y
+                z=z
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.1,0.5,0.5) 
+                bpy.context.object.data.materials.append(kaca)
+                ob.data.materials.append(kaca)
+#                
+#                material.use_transparency = True #  renders trans
+#                obj.show_transparent = True #  displays trans in viewport
+
+
+
+                
+    x=6
+    for y in range(5, 9):
+        for z in range(3, 8):           
+            if y==5 or y==8 :
+                x=x
+                y=y
+                z=z
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)
+                ob.data.materials.append(batu)  
+                 
+            elif z == 3 or z == 6 or z == 7 :
+                x=x
+                y=y
+                z=z
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)
+                ob.data.materials.append(batu)  
+                
+                
+            #kaca
+            else :               
+                x=x
+                y=y
+                z=z
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.1,0.5,0.5)                
+                ob.data.materials.append(kaca)  
+                              
+
+def atap() :
+    z=0
+    for x in range(4,9):
+        for y in range(1):             
+            x=x
+            y=y
+            z=z+1
+            for i in range(2,12):
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,i+y,(6)+z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)                
+                ob.data.materials.append(kayuatap)  
+                      
+    for x in range(9,14):
+        for y in range(1):             
+            x=x
+            y=y
+            z=z+1
+            for i in range(2,12):
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,i+y, (11+(6))-z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)                                
+                ob.data.materials.append(kayuatap)  
+
+              
+def penutup() :
+    y=0
+    for x in range(6,12):
+        for z in range(8,9):             
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,9,z))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)
+            ob.data.materials.append(batu)  
+            
+    for x in range(7,11):
+        for z in range(9,10):             
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,9,z))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)            
+            ob.data.materials.append(batu)  
+            
+    for x in range(8,10):
+        for z in range(10,11):             
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,9,z))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)            
+            ob.data.materials.append(batu)  
+    
+    for x in range(6,12):
+        for z in range(8,9):             
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,4,z))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)       
+            ob.data.materials.append(batu)  
+            
+    for x in range(7,11):
+        for z in range(9,10):             
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,4,z))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)                 
+            ob.data.materials.append(batu)  
+            
+    for x in range(8,10):
+        for z in range(10,11):             
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,4,z))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)            
+            ob.data.materials.append(batu)   
+ 
+#pohon
+def pohon():
+    y=0
+    for x in range(1):
+        for z in range(3, 7):             
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,4,z))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)            
+            ob.data.materials.append(kayu)  
+            
+    for x in range(-1,2):
+        for y in range(3, 6):     
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)                        
+            ob.data.materials.append(daun) 
+              
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x*2,y,z))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)                        
+            ob.data.materials.append(daun) 
+              
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,2,z))            
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)
+            ob.data.materials.append(daun) 
+              
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,6,z))            
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5) 
+            ob.data.materials.append(daun)  
+             
+            
+    for x in range(-1,3):
+        for y in range(3, 7):     
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z+1))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)
+            ob.data.materials.append(daun)     
+            
+    for x in range(-2,2):
+        for y in range(2, 6):     
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z+1))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)
+            ob.data.materials.append(daun)   
+            
+    for x in range(-1,2):
+        for y in range(3, 6):     
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z+2))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)
+            ob.data.materials.append(daun)     
+            
+    for x in range(1,2):
+        for y in range(3, 6):     
+            x=x
+            y=y
+            z=z
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x-1,y,z+3))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)
+            ob.data.materials.append(daun) 
+            
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,4,z+3))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)
+            ob=context.view_layer.objects.active
+            ob.data.materials.append(daun)  
+              
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(-1,4,z+3))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)
+            ob.data.materials.append(daun)   
+             
+                        
+#obor
+def obor():
+    bpy.ops.mesh.primitive_cube_add(location=(12,10.7,5))
+    ob=bpy.context.active_object
+    ob.scale=(0.1,0.5,0.1)  
+    ob.rotation_euler=[math.radians(60),0,0]
+
+    ob.data.materials.append(oborr)
+    
+    lamp_data = bpy.data.lights.new(name="Lamp", type='POINT')
+    lamp_data.energy = 1000
+    lamp_object = bpy.data.objects.new(name="Lamp", object_data=lamp_data)
+    bpy.context.collection.objects.link(lamp_object)
+    lamp_data.color=(1,0.5,0)
+    lamp_object.location = (12,11,5.4)
+        
+    
+    bpy.ops.mesh.primitive_cube_add(location=(5,10.7,5))
+    ob=bpy.context.active_object
+    ob.scale=(0.1,0.5,0.1)  
+    ob.rotation_euler=[math.radians(60),0,0]    
+    ob.data.materials.append(oborr)
+    
+    lamp_data = bpy.data.lights.new(name="Lamp", type='POINT')
+    lamp_data.energy = 1000
+    lamp_object = bpy.data.objects.new(name="Lamp", object_data=lamp_data)
+    bpy.context.collection.objects.link(lamp_object)
+    lamp_data.color=(1,0.5,0)
+    lamp_object.location = (5,10.9,5.4)
+    
+    
+    #Obor dalam rumah
+    bpy.ops.mesh.primitive_cube_add(location=(8.5,4.7,5))
+    ob=bpy.context.active_object
+    ob.scale=(0.1,0.5,0.1)  
+    ob.rotation_euler=[math.radians(60),0,0]    
+    ob.data.materials.append(oborr)
+    
+    lamp_data = bpy.data.lights.new(name="Lamp", type='POINT')
+    lamp_data.energy = 1000
+    lamp_object = bpy.data.objects.new(name="Lamp", object_data=lamp_data)
+    bpy.context.collection.objects.link(lamp_object)
+    lamp_data.color=(1,0.5,0)
+    lamp_object.location = (8.5,5,5.4)
+
+
+     
+
+def lampujalan():
+    for x in range(1):
+        for z in range(3,8):
+            for i in range(5) :
+                if z in range(7) :
+                    bpy.ops.mesh.primitive_cube_add(location=(-5,i*5,z))
+                    ob=bpy.context.active_object
+                    ob.scale=(0.1,0.1,0.5)
+                    ob.data.materials.append(kayuatap)  
+                else :
+                    bpy.ops.mesh.primitive_cube_add(location=(-5,i*5,z))
+                    ob=bpy.context.active_object
+                    ob.scale=(0.5,0.5,0.5)
+                    ob=bpy.context.active_object                
+                    ob.data.materials.append(kayu)
+                    
+                    if i==1 or i == 5:
+                        bpy.ops.mesh.primitive_cube_add(location=(-4.4,i*5,7.3))
+                        ob=bpy.context.active_object
+                        ob.scale=(0.5,0.1,0.1)  
+                        ob.rotation_euler=[math.radians(0),(90),0]               
+                        ob.data.materials.append(oborr)
+                        
+                        lamp_data = bpy.data.lights.new(name="Lamp", type='POINT')
+                        lamp_data.energy = 1000
+                        lamp_object = bpy.data.objects.new(name="Lamp", object_data=lamp_data)
+                        bpy.context.collection.objects.link(lamp_object)
+                        lamp_data.color=(0,1,0)
+                        lamp_object.location = (-4.2,i*5,7.7)
+                    elif i==2 or i ==4 :
+                        bpy.ops.mesh.primitive_cube_add(location=(-4.4,i*5,7.3))
+                        ob=bpy.context.active_object
+                        ob.scale=(0.5,0.1,0.1)  
+                        ob.rotation_euler=[math.radians(0),(90),0]               
+                        ob.data.materials.append(oborr)
+                        
+                        lamp_data = bpy.data.lights.new(name="Lamp", type='POINT')
+                        lamp_data.energy = 1000
+                        lamp_object = bpy.data.objects.new(name="Lamp", object_data=lamp_data)
+                        bpy.context.collection.objects.link(lamp_object)
+                        lamp_data.color=(1,0,0)
+                        lamp_object.location = (-4.2,i*5,7.7)
+                    elif i==3 or i==0:
+                        bpy.ops.mesh.primitive_cube_add(location=(-4.4,i*5,7.3))
+                        ob=bpy.context.active_object
+                        ob.scale=(0.5,0.1,0.1)  
+                        ob.rotation_euler=[math.radians(0),(90),0]               
+                        ob.data.materials.append(oborr)
+                        
+                        lamp_data = bpy.data.lights.new(name="Lamp", type='POINT')
+                        lamp_data.energy = 1000
+                        lamp_object = bpy.data.objects.new(name="Lamp", object_data=lamp_data)
+                        bpy.context.collection.objects.link(lamp_object)
+                        lamp_data.color=(0,0,1)
+                        lamp_object.location = (-4.2,i*5,7.7)
+                    
+                    
+                             
+#  lampu ga kepake   
+#    for x in range(2,5):
+#        for y in range(13,16):           
+#            if x == 2 and y== 14:           
+#                bpy.ops.mesh.primitive_cube_add(location=(-5.6,y,7.3))
+#                ob=bpy.context.active_object
+#                ob.scale=(0.5,0.1,0.1)  
+#                ob.rotation_euler=[math.radians(90),-90,0]               
+#                ob.data.materials.append(oborr)
+#                
+#                lamp_data = bpy.data.lights.new(name="Lamp", type='POINT')
+#                lamp_data.energy = 1000
+#                lamp_object = bpy.data.objects.new(name="Lamp", object_data=lamp_data)
+#                bpy.context.collection.objects.link(lamp_object)
+#                lamp_data.color=(0,1,0)
+#                lamp_object.location = (-5.8,y,7.7)
+#            elif x== 3 and y in range(13,14):          
+#                bpy.ops.mesh.primitive_cube_add(location=(x,13.3,7.3))
+#                ob=bpy.context.active_object
+#                ob.scale=(0.1,0.5,0.1)  
+#                ob.rotation_euler=[math.radians(-60),0,0]
+#                ob.data.materials.append(oborr)
+#                
+#                lamp_data = bpy.data.lights.new(name="Lamp", type='POINT')
+#                lamp_data.energy = 1000
+#                lamp_object = bpy.data.objects.new(name="Lamp", object_data=lamp_data)
+#                bpy.context.collection.objects.link(lamp_object)
+#                lamp_data.color=(1,0,0)
+#                lamp_object.location = (x,13.1,7.7)
+#                
+#            elif x== 3 and y in range(15,16):          
+#                bpy.ops.mesh.primitive_cube_add(location=(x,14.7,7.3))
+#                ob=bpy.context.active_object
+#                ob.scale=(0.1,0.5,0.1)  
+#                ob.rotation_euler=[math.radians(60),0,0]
+
+#                ob.data.materials.append(oborr)
+#                
+#                lamp_data = bpy.data.lights.new(name="Lamp", type='POINT')
+#                lamp_data.energy = 1000
+#                lamp_object = bpy.data.objects.new(name="Lamp", object_data=lamp_data)
+#                bpy.context.collection.objects.link(lamp_object)
+#                lamp_data.color=(0,0,1)
+#                lamp_object.location = (x,14.9,7.7)
+#                
+#            else :
+#                bpy.ops.mesh.primitive_cube_add(location=(3.7,14,7.3))
+#                ob=bpy.context.active_object
+#                ob.scale=(0.5,0.1,0.1)  
+#                ob.rotation_euler=[math.radians(0),(90),0]
+
+#                ob.data.materials.append(oborr)
+#                 
+#                lamp_data = bpy.data.lights.new(name="Lamp", type='POINT')
+#                lamp_data.energy = 10
+#                lamp_object = bpy.data.objects.new(name="Lamp", object_data=lamp_data)
+#                bpy.context.collection.objects.link(lamp_object)
+#                lamp_data.color=(1,0.5,0)
+#                lamp_object.location = (x,14.9,7.7)
+                          
+            
+
+def awan():  
+    z=0                
+    for x in range(23,28):
+        for y in range(3, 6):     
+            x=x
+            y=y
+            z=21
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)            
+            ob.data.materials.append(awan1)
+    
+            obj=bpy.context.object
+            frame_num=0
+            
+            
+            bpy.context.scene.frame_end = 100
+            for f in range(0,6):
+                for v in obj.data.vertices:
+                    v.co.x-=10
+                    v.keyframe_insert('co',frame=frame_num)
+                frame_num+=20
+     
+            
+    for x in range(1,6):
+        for y in range(6, 9):     
+            x=x
+            y=y
+            z=18
+            
+            for i in range(5):
+                if x in range(2,5) or y== 7 or y==9 :
+                    bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                    ob=bpy.context.active_object
+                    ob.scale=(0.5,0.5,0.5)
+                    ob.data.materials.append(awan1)
+                    
+                else :
+                    bpy.ops.mesh.primitive_cube_add(size=2,location=(x+2,y+2,z))
+                    ob=bpy.context.active_object
+                    ob.scale=(0.5,0.5,0.5)
+                    ob.data.materials.append(awan1) 
+
+                
+def sumur() :
+    z=4
+    for x in range(10, 14):
+        for y in range(15, 19):                         
+            x=x
+            y=y
+            z=z
+            if x != 11 and x !=12 or y !=16 and y!=17:
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)                
+                ob.data.materials.append(batu)
+            
+    #alas      
+    for x in range(9, 15):
+        for y in range(14,20):
+            x=x
+            y=y
+            z=3
+            if x != 11 and x !=12 or y !=16 and y!=17:
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)                
+                ob.data.materials.append(batu)
+            else :
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.5,0.5,0.5)                
+                ob.data.materials.append(air)
+                
+    #tiang
+    y=0
+    for x in range(4):
+        for z in range(5, 7):
+            if(x==0) or (x==3) :               
+                x=x
+                y=y
+                z=z
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(10+(x),15,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.1,0.1,0.5)                
+                ob.data.materials.append(kayuatap)
+
+                bpy.ops.mesh.primitive_cube_add(size=2,location=(10+(x),18,z))
+                ob=bpy.context.active_object
+                ob.scale=(0.1,0.1,0.5)               
+                ob.data.materials.append(kayuatap)
+                
+    #penutup
+    for x in range(10, 14):
+        for y in range(15, 19):  
+            bpy.ops.mesh.primitive_cube_add(size=2,location=(x,y,7))
+            ob=bpy.context.active_object
+            ob.scale=(0.5,0.5,0.5)                
+            ob.data.materials.append(batu)
+ 
+ 
+     
+def matahari():
+    lamp_data = bpy.data.lights.new(name="Sun", type='SUN')
+    lamp_data.energy = 1.3
+    lamp_object = bpy.data.objects.new(name="Lamp", object_data=lamp_data)
+    bpy.context.collection.objects.link(lamp_object)
+    lamp_data.color=(1,0.5,0)
+    lamp_object.location = (10,-25,20)
+    lamp_data.angle = 75.3  # In radians
+    
+    
+def kamera():
+    kamera_data = bpy.data.cameras.new(name='Camera')
+    kamera_object = bpy.data.objects.new('Camera', kamera_data)
+    kamera_object.location=(-17,45.07,24.72)
+    kamera_object.rotation_euler=[19.99,0,60.30]
+    bpy.context.scene.collection.objects.link(kamera_object)
+
+
+
+def pagar():
+    for x in range(1, 18, 16):
+        for z in range(3,4):
+            for i in range(21) :
+                if i!=12  :
+                    bpy.ops.mesh.primitive_cube_add(location=(x,i,z))
+                    ob=bpy.context.active_object
+                    ob.scale=(0.1,0.1,0.5)
+                    ob.data.materials.append(kayuatap)
+                    
+                    bpy.ops.mesh.primitive_cube_add(location=(x,i,z-0.2))
+                    ob=bpy.context.active_object
+                    ob.scale=(0.05,0.5,0.1)
+                    ob.data.materials.append(kayuatap)  
+                    
+                    bpy.ops.mesh.primitive_cube_add(location=(x,i,z+0.2))
+                    ob=bpy.context.active_object
+                    ob.scale=(0.05,0.5,0.1)
+                    ob.data.materials.append(kayuatap)
+                    
+
+                
+def pintu():
+    bpy.ops.mesh.primitive_plane_add(location=(8,9,3.5))
+    ob=bpy.context.active_object
+    ob.scale=(0.5,1,0)
+    ob.rotation_euler=[math.radians(90),0,0] 
+    ob.data.materials.append(pintuu)
+     
+    bpy.ops.mesh.primitive_plane_add(location=(9,9,3.5))
+    ob=bpy.context.active_object
+    ob.scale=(0.5,1,0)
+    ob.rotation_euler=[math.radians(90),0,0]
+    ob.data.materials.append(pintuu)      
+    
+                    
+if __name__=="__main__":
+#    alas2()
+#    tiang3()
+#    tembokbelakang()
+#    temboksampingkiri()
+#    atap()
+#    penutup()
+    pohon()
+#    obor()
+
+#    lampujalan()
+#    awan()
+#    matahari()
+#    sumur()
+#    kamera()
+    pagar()
+#    pintu()
+
